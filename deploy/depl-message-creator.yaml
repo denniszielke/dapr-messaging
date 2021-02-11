@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: message-creator-app
+  labels:
+    app: message-creator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: message-creator
+  template:
+    metadata:
+      labels:
+        app: message-creator
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "message-creator"
+        dapr.io/app-port: "3000"
+        dapr.io/config: "appconfig"
+    spec:
+      containers:
+      - name: message-creator
+        image: dzbuild.azurecr.io/message-creator:latest
+        ports:
+        - containerPort: 3000
+        imagePullPolicy: Always
+        env: 
+          - name: "PORT"
+            value: "3000"
+          - name: "APP"
+            value: "1000"

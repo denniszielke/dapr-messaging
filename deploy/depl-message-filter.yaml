@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: message-filter-app
+  labels:
+    app: message-filter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: message-filter
+  template:
+    metadata:
+      labels:
+        app: message-filter
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "message-filter"
+        dapr.io/app-port: "80"
+        dapr.io/config: "appconfig"
+    spec:
+      containers:
+      - name: message-filter
+        image: dzbuild.azurecr.io/message-filter:latest
+        ports:
+        - containerPort: 3000
+        imagePullPolicy: Always
+        env: 
+          - name: "PORT"
+            value: "80"
+          - name: "APP"
+            value: "10"
