@@ -6,13 +6,13 @@ namespace message_receiver
     public class DeviceMessage
     {
         [JsonProperty("id")]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         [JsonProperty("humidity")]
-        public int Humidity { get; set; }
+        public string Humidity { get; set; }
 
         [JsonProperty("temperature")]
-        public int Temperature { get; set; }
+        public string Temperature { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }

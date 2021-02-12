@@ -15,8 +15,6 @@ namespace message_filter.Controllers
     // [Route("[controller]")]
     public class MessageController : ControllerBase
     {
-
-
         private readonly ILogger<MessageController> _logger;
 
         public MessageController(ILogger<MessageController> logger)
@@ -27,58 +25,94 @@ namespace message_filter.Controllers
 
         [Topic("dzpubsub", "senddata")]
         [HttpPost("senddata")]
-        public async Task<ActionResult<string>> ReceiveMessages(CloudEvent message, [FromServices] DaprClient daprClient )// [FromBody]DeviceMessage message, [FromServices] DaprClient daprClient)
+        public async Task<ActionResult<string>> ReceiveMessages(DeviceMessage message, [FromServices] DaprClient daprClient )// [FromBody]DeviceMessage message, [FromServices] DaprClient daprClient)
         {
-            _logger.LogInformation("Enter receivemessage");
-            _logger.LogInformation(message.ToString());
+            _logger.LogInformation("Enter receive data message");
 
-            var deviceMessage = JsonConvert.DeserializeObject<DeviceMessage>(message.Data.ToString());
+            // var deviceMessage = JsonConvert.DeserializeObject<DeviceMessage>(message.Data.ToString());
             
-            _logger.LogInformation(deviceMessage.Id.ToString());
-
-            await daprClient.PublishEventAsync<CloudEvent>("dzpubsub", "important", message);
-
-            return Ok(message.ToString());
-        }
-
-        [Topic("dzpubsub", "newdevice")]
-        [HttpPost("newdevice")]
-        public async Task<ActionResult<string>> ReceiveDeviceMessages(CloudEvent message, [FromServices] DaprClient daprClient )// [FromBody]DeviceMessage message, [FromServices] DaprClient daprClient)
-        {
-            _logger.LogInformation("Enter receive device messages");
-            _logger.LogInformation(message.ToString());
-
-            var deviceMessage = JsonConvert.DeserializeObject<DeviceMessage>(message.Data.ToString());
-            
-            _logger.LogInformation(deviceMessage.Id.ToString());
-
-            await daprClient.PublishEventAsync<CloudEvent>("dzpubsub", "important", message);
-
-            return Ok(message.ToString());
-        }
-
-        [HttpPost("receiverequest")]
-        
-        public async Task<ActionResult<string>> ReceiveRequest(CloudEvent message, [FromServices] DaprClient daprClient )// [FromBody]DeviceMessage message, [FromServices] DaprClient daprClient)
-        {
-            _logger.LogInformation("Enter receive request messages");
-            _logger.LogInformation(message.ToString());
-
-            var deviceMessage = JsonConvert.DeserializeObject<DeviceMessage>(message.Data.ToString());
-            
-            if (deviceMessage != null){
-                _logger.LogInformation(deviceMessage.ToString());
-                _logger.LogInformation(deviceMessage.Id.ToString());
+            if (message != null){
+                _logger.LogInformation("Received device message:" + message.ToString());
+                if (message.Name != null){
+                    _logger.LogInformation("Message from:" + message.Name.ToString());
+                }    
+                if (message.Id != null){
+                    _logger.LogInformation("Message id:" + message.Id.ToString());
+                }      
+                if (message.Message != null){
+                    _logger.LogInformation("Message says:" + message.Message.ToString());
+                }           
             }
 
             try{
-                await daprClient.InvokeMethodAsync<CloudEvent>("message-receiver", "receiverequest", message);
+                        await daprClient.PublishEventAsync<DeviceMessage>("dzpubsub", "important", message);
             }
             catch(Exception ex){
                 _logger.LogError(ex, ex.Message);
                 return BadRequest();
             }
-            return Ok(message.ToString());
+            return Ok(message.Id);
+        }
+
+        [Topic("dzpubsub", "newdevice")]
+        [HttpPost("newdevice")]
+        public async Task<ActionResult<string>> ReceiveDeviceMessages([FromBody] DeviceMessage message, [FromServices] DaprClient daprClient )// [FromBody]DeviceMessage message, [FromServices] DaprClient daprClient)
+        {
+            _logger.LogInformation("Enter receive new device messages");
+            // var deviceMessage = JsonConvert.DeserializeObject<DeviceMessage>(message.Data.ToString());
+              
+            if (message != null){
+                _logger.LogInformation("Received device message:" + message.ToString());
+                if (message.Name != null){
+                    _logger.LogInformation("Message from:" + message.Name.ToString());
+                }    
+                if (message.Id != null){
+                    _logger.LogInformation("Message id:" + message.Id.ToString());
+                }      
+                if (message.Message != null){
+                    _logger.LogInformation("Message says:" + message.Message.ToString());
+                }              
+            }
+
+            try{
+                await daprClient.PublishEventAsync<DeviceMessage>("dzpubsub", "important", message);
+            }
+            catch(Exception ex){
+                _logger.LogError(ex, ex.Message);
+                return BadRequest();
+            }
+            return Ok(message.Id);
+        }
+
+        [HttpPost("receiverequest")]
+        
+        public async Task<ActionResult<string>> ReceiveRequest(DeviceMessage message, [FromServices] DaprClient daprClient )// [FromBody]DeviceMessage message, [FromServices] DaprClient daprClient)
+        {
+            _logger.LogInformation("Enter receive request messages");
+
+            // var deviceMessage = JsonConvert.DeserializeObject<DeviceMessage>(message.Data.ToString());
+            
+            if (message != null){
+                _logger.LogInformation("Received device message:" + message.ToString());
+                 if (message.Name != null){
+                    _logger.LogInformation("Message from:" + message.Name.ToString());
+                }    
+                if (message.Id != null){
+                    _logger.LogInformation("Message id:" + message.Id.ToString());
+                }      
+                if (message.Message != null){
+                    _logger.LogInformation("Message says:" + message.Message.ToString());
+                }                 
+            }
+
+            try{
+                await daprClient.InvokeMethodAsync<DeviceMessage>("message-receiver", "receiverequest", message);
+            }
+            catch(Exception ex){
+                _logger.LogError(ex, ex.Message);
+                return BadRequest();
+            }
+            return Ok(message.Id);
         }
     }
 }

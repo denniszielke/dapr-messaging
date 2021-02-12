@@ -26,10 +26,10 @@ namespace message_filter
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers().AddDapr();
-            services.AddMvc(opts =>
-            {
-                opts.InputFormatters.Insert(0, new CloudNative.CloudEvents.CloudEventJsonInputFormatter());
-            }); 
+            // services.AddMvc(opts =>
+            // {
+            //     opts.InputFormatters.Insert(0, new CloudNative.CloudEvents.CloudEventJsonInputFormatter());
+            // }); 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 namespace message_receiver.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    // [Route("[controller]")]
     public class MessageController : ControllerBase
     {
         private readonly ILogger<MessageController> _logger;
@@ -24,31 +24,51 @@ namespace message_receiver.Controllers
 
         [Topic("dzpubsub", "important")]
         [HttpPost("important")]
-        public async Task<ActionResult<string>> ImportantMessages(CloudEvent message, [FromServices] DaprClient daprClient )// [FromBody]DeviceMessage message, [FromServices] DaprClient daprClient)
+        public async Task<ActionResult<string>> ImportantMessages([FromBody] DeviceMessage message, [FromServices] DaprClient daprClient )// [FromBody]DeviceMessage message, [FromServices] DaprClient daprClient)
         {
-            _logger.LogInformation("Enter important message");
-            _logger.LogInformation(message.ToString());
+            _logger.LogInformation("Enter receive portant messages");
+            // var deviceMessage = JsonConvert.DeserializeObject<DeviceMessage>(message.Data.ToString());
+              
+            if (message != null){
+                _logger.LogInformation("Received device message:" + message.ToString());
+                if (message.Name != null){
+                    _logger.LogInformation("Message from:" + message.Name.ToString());
+                }    
+                if (message.Id != null){
+                    _logger.LogInformation("Message id:" + message.Id.ToString());
+                }      
+                if (message.Message != null){
+                    _logger.LogInformation("Message says:" + message.Message.ToString());
+                }              
+            }
 
-            var deviceMessage = JsonConvert.DeserializeObject<DeviceMessage>(message.Data.ToString());
-            
-            _logger.LogInformation(deviceMessage.Id.ToString());
-
-            return Ok(message.ToString());
+            return Ok("Thanks");
         }
 
+
+        
         [HttpPost("receiverequest")]
         
-        public async Task<ActionResult<string>> ReceiveRequest(CloudEvent message, [FromServices] DaprClient daprClient )// [FromBody]DeviceMessage message, [FromServices] DaprClient daprClient)
+        public async Task<ActionResult<string>> ReceiveRequest(DeviceMessage message, [FromServices] DaprClient daprClient )// [FromBody]DeviceMessage message, [FromServices] DaprClient daprClient)
         {
             _logger.LogInformation("Enter receive request messages");
-            _logger.LogInformation(message.ToString());
 
-            var deviceMessage = JsonConvert.DeserializeObject<DeviceMessage>(message.Data.ToString());
+            // var deviceMessage = JsonConvert.DeserializeObject<DeviceMessage>(message.Data.ToString());
             
-            _logger.LogInformation(deviceMessage.Id.ToString());
-            
-            return Ok(message.ToString());
+            if (message != null){
+                _logger.LogInformation("Received device message:" + message.ToString());
+                 if (message.Name != null){
+                    _logger.LogInformation("Message from:" + message.Name.ToString());
+                }    
+                if (message.Id != null){
+                    _logger.LogInformation("Message id:" + message.Id.ToString());
+                }      
+                if (message.Message != null){
+                    _logger.LogInformation("Message says:" + message.Message.ToString());
+                }                 
+            }
+
+            return Ok("Thanks");
         }
-
     }
 }

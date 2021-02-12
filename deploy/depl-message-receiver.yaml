@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: message-receiver
-        image: dzbuild.azurecr.io/message-receiver:latest
+        image: dzbuild.azurecr.io/message-receiver:works
         ports:
         - containerPort: 3000
         imagePullPolicy: Always
@@ -29,4 +29,4 @@ spec:
           - name: "PORT"
             value: "80"
           - name: "APP"
-            value: "10"
+            value: "234"

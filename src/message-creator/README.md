@@ -3,7 +3,7 @@
 ## Debug
 
 ```
-dapr run --app-id message-creator --app-port 3000 node app.js
+dapr run --components-path /Users/dennis/Desktop/components  --app-id message-creator --app-port 3000 node app.js
 ```
 
 
@@ -28,5 +28,5 @@ kubectl apply -f ../../deploy/depl-message-creator.yaml
 ```
 kubectl port-forward deployment/message-creator-app 3000
 
-kubectl logs deployment/message-creator-app
+kubectl logs deployment/message-creator-app message-creator
 ```

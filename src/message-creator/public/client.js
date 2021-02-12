@@ -57,15 +57,23 @@ angular.module('SimulatorApp', [])
                         'Ce-Specversion': '1.0',
                         'Ce-Type': 'dapr-demo',
                         'Ce-Source' : 'message-creator',
-                        'Ce-Id': uid,
-                        'temperature': $scope.temperature,
-                        'humidity': $scope.humidity,
-                        'name': $scope.name,
-                        'message': $scope.message
+                        'Ce-Id': "'" + uid + "'",
+                        'id': "'" + uid + "'",
+                        'temperature': "'" + $scope.temperature + "'",
+                        'humidity': "'"+ $scope.humidity + "'",
+                        'name':"'"+  $scope.name + "'",
+                        'message': "'"+ $scope.message + "'"
                     }
                 };
+                var body = {
+                    'id': "'" + uid + "'",
+                    'temperature': "'" + $scope.temperature + "'",
+                    'humidity': "'"+ $scope.humidity + "'",
+                    'name':"'"+  $scope.name + "'",
+                    'message': "'"+ $scope.message + "'"
+                }
                 console.log(config.headers);
-                $http.post(postUrl, { 'temperature': $scope.temperature, 'humidity': $scope.humidity, 'name': $scope.name, 'message': $scope.message }, config)
+                $http.post(postUrl, body, config)
                     .success(function (response) { 
                         $scope.result = response;
                         console.log("received response:");
@@ -86,16 +94,24 @@ angular.module('SimulatorApp', [])
                         'Ce-Specversion': '1.0',
                         'Ce-Type': 'dapr-demo',
                         'Ce-Source' : 'message-creator',
-                        'Ce-Id': uid,
-                        'temperature': $scope.temperature,
-                        'humidity': $scope.humidity,
-                        'name': $scope.name,
-                        'message': $scope.message
+                        'Ce-Id': "'" + uid + "'",
+                        'id': "'" + uid + "'",
+                        'temperature': "'" + $scope.temperature + "'",
+                        'humidity': "'"+ $scope.humidity + "'",
+                        'name':"'"+  $scope.name + "'",
+                        'message': "'"+ $scope.message + "'"
                     }
                 };
 
+                var body = {
+                    'id': "'" + uid + "'",
+                    'temperature': "'" + $scope.temperature + "'",
+                    'humidity': "'"+ $scope.humidity + "'",
+                    'name':"'"+  $scope.name + "'",
+                    'message': "'"+ $scope.message + "'"
+                }
                 console.log(config.headers);
-                $http.post(postUrl, { 'temperature': $scope.temperature, 'humidity': $scope.humidity, 'name': $scope.name, 'message': $scope.message }, config)
+                $http.post(postUrl, body, config)
                     .success(function (response) { 
                         $scope.result = response;
                         console.log("received response:");
