@@ -29,3 +29,4 @@ kubectl apply -f https://raw.githubusercontent.com/dapr/quickstarts/master/distr
 kubectl apply -f https://raw.githubusercontent.com/dapr/quickstarts/master/distributed-calculator/deploy/react-calculator.yaml
 
 kubectl apply -f https://raw.githubusercontent.com/dapr/quickstarts/master/distributed-calculator/deploy/redis.yaml
+

@@ -15,7 +15,7 @@ const daprGRPCPort = process.env.DAPR_GRPC_PORT;
 const daprPort = process.env.DAPR_HTTP_PORT || 3500;
 const daprUrl = `http://localhost:${daprPort}/v1.0`;
 const port = 3000;
-const pubsubName = 'message-creator';
+const pubsubName = 'dzpubsub';
 const invokeTarget = 'message-filter';
 
 app.use(morgan('dev'));

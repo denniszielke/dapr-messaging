@@ -35,7 +35,7 @@ curl -X POST http://127.0.0.1:5001/receiverequest -H "Content-Type: application/
 REGISTRY_NAME=dzbuild 
 az acr login --name $REGISTRY_NAME
 az configure --defaults acr=$REGISTRY_NAME
-az acr build --registry $REGISTRY_NAME --image message-receiver:works .
+az acr build --registry $REGISTRY_NAME --image message-receiver .
 ```
 
 

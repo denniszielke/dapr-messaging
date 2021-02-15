@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: message-filter
-        image: dzbuild.azurecr.io/message-filter:works
+        image: dzbuild.azurecr.io/message-filter:latest
         ports:
         - containerPort: 3000
         imagePullPolicy: Always

@@ -1,7 +1,7 @@
 ﻿var apiUrl = '/api/';
 function loopClick() {
-    console.log(document.getElementById('SendData'));
-    document.getElementById('SendData').click();
+    console.log(document.getElementById('PublishMessage'));
+    document.getElementById('PublishMessage').click();
 };
 
 function uuidv4() {
@@ -117,6 +117,24 @@ angular.module('SimulatorApp', [])
                         console.log("received response:");
                         console.log(response);  
                         if ($scope.loop){
+                            var randum = Math.floor((Math.random() * 5) + 1);
+                            var randtm = Math.floor((Math.random() * 5) + 1);
+                            if ($scope.humidity > 50 || $scope.humidity < 7)
+                            {
+                                $scope.humidity = 25;
+                            }
+                            if ($scope.temperature > 50 || $scope.temperature < 7)
+                            {
+                                $scope.temperature = 25;
+                            }
+                            if (randum > 3){
+                                $scope.humidity += randum;
+                                $scope.temperature -= randtm;
+                            }
+                            else{
+                                $scope.humidity -= randum;
+                                $scope.temperature += randtm;
+                            }
                             window.setTimeout(loopClick, 500);
                         }
                     });
