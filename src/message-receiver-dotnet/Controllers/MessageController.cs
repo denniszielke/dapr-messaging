@@ -26,7 +26,7 @@ namespace message_receiver.Controllers
         [HttpPost("important")]
         public async Task<ActionResult<string>> ImportantMessages([FromBody] DeviceMessage message, [FromServices] DaprClient daprClient )// [FromBody]DeviceMessage message, [FromServices] DaprClient daprClient)
         {
-            _logger.LogInformation("Enter receive portant messages");
+            _logger.LogInformation("Enter receive important messages");
             // var deviceMessage = JsonConvert.DeserializeObject<DeviceMessage>(message.Data.ToString());
               
             if (message != null){

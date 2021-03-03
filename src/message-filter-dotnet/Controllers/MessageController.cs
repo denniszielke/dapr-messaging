@@ -45,7 +45,7 @@ namespace message_filter.Controllers
             }
 
             try{
-                        await daprClient.PublishEventAsync<DeviceMessage>("dzpubsub", "important", message);
+                await daprClient.PublishEventAsync<DeviceMessage>("dzpubsub", "important", message);
             }
             catch(Exception ex){
                 _logger.LogError(ex, ex.Message);
@@ -76,6 +76,7 @@ namespace message_filter.Controllers
 
             try{
                 await daprClient.PublishEventAsync<DeviceMessage>("dzpubsub", "important", message);
+                _logger.LogInformation("Message has been published to important topic:" + message.Message.ToString());
             }
             catch(Exception ex){
                 _logger.LogError(ex, ex.Message);

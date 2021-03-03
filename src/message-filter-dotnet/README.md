@@ -13,7 +13,7 @@ dotnet add package Newtonsoft.Json
 
 
 
-dapr run --app-id message-filter-dotnet ../../components --app-port 5000 --dapr-http-port 3500 dotnet run
+dapr run --app-id message-filter-dotnet --components-path ../../components --app-port 5001 --dapr-http-port 3500 dotnet run
 
 ```
 

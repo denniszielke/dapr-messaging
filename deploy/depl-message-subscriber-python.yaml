@@ -16,14 +16,14 @@ spec:
       annotations:
         dapr.io/enabled: "true"
         dapr.io/app-id: "message-subscriber"
-        dapr.io/app-port: "80"
+        dapr.io/app-port: "5000"
         dapr.io/config: "appconfig"
     spec:
       containers:
       - name: message-subscriber
-        image: dzbuild.azurecr.io/message-subscriber:latest
+        image: ghcr.io/denniszielke/dapr-demo/message-subscriber-python:latest
         ports:
-        - containerPort: 3000
+        - containerPort: 5000
         imagePullPolicy: Always
         env: 
           - name: "PORT"

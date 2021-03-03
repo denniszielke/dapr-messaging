@@ -4,9 +4,9 @@
 
 ```
 
-python -m pip install -r requirements.txt
+pip3 install -r requirements.txt 
 
-dapr run --app-id message-subscriber-python ../../components --dapr-http-port 3502 --app-port 5000 python app.py
+dapr run --app-id message-subscriber-python --components-path ../../components --dapr-http-port 3502 --app-port 5000 python app.py
 
 ```
 
