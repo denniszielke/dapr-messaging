@@ -32,8 +32,21 @@ jobs:
       # Runs a single command using the runners shell
       - name: Docker build, tag and push
         run: |        
-  
-          cd message-creator-node
+
           docker login -u denniszielke -p ${{ secrets.PACKAGE_PAT }} ghcr.io
+
+          cd message-creator-node
           docker build -t ghcr.io/denniszielke/dapr-demo/message-creator-node:latest .
           docker push ghcr.io/denniszielke/dapr-demo/message-creator-node:latest
+
+          cd ../message-filter-dotnet
+          docker build -t ghcr.io/denniszielke/dapr-demo/message-filter-dotnet:latest .
+          docker push ghcr.io/denniszielke/dapr-demo/message-filter-dotnet:latest
+
+          cd ../message-receiver-dotnet
+          docker build -t ghcr.io/denniszielke/dapr-demo/message-receiver-dotnet:latest .
+          docker push ghcr.io/denniszielke/dapr-demo/message-receiver-dotnet:latest
+
+          cd ../message-subscriber-python
+          docker build -t ghcr.io/denniszielke/dapr-demo/message-subscriber-python:latest .
+          docker push ghcr.io/denniszielke/dapr-demo/message-subscriber-python:latest
