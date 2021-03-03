@@ -33,4 +33,3 @@ jobs:
           docker login -u denniszielke -p ${{ secrets.PACKAGE_PAT }} ghcr.io
           docker build -t ghcr.io/denniszielke/dapr-demo/message-creator-node:latest .
           docker push ghcr.io/denniszielke/dapr-demo/message-creator-node:latest
-        docker push ghcr.io/azure-adventure-day/azure-adventure-day-coach/gamedayengine-web:latest
