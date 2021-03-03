@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: message-creator
-        image: dzbuild.azurecr.io/message-creator:latest
+        image: dzbuild.azurecr.io/message-creator-node:latest
         ports:
         - containerPort: 3000
         imagePullPolicy: Always

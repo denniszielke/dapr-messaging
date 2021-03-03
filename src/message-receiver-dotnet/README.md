@@ -13,7 +13,7 @@ dotnet add package Newtonsoft.Json
 
 
 
-dapr run --app-id message-receiver --components-path /Users/dennis/Desktop/components --app-port 5001 --dapr-http-port 3501 dotnet run
+dapr run --app-id message-receiver-dotnet ../../components --app-port 5001 --dapr-http-port 3501 dotnet run
 
 ```
 
@@ -35,15 +35,14 @@ curl -X POST http://127.0.0.1:5001/receiverequest -H "Content-Type: application/
 REGISTRY_NAME=dzbuild 
 az acr login --name $REGISTRY_NAME
 az configure --defaults acr=$REGISTRY_NAME
-az acr build --registry $REGISTRY_NAME --image message-receiver .
+az acr build --registry $REGISTRY_NAME --image message-receiver-dotnet .
 ```
 
 
 ## Deploy
 
 ```
-kubectl apply -f ../../deploy/depl-message-receiver.yaml
-
+kubectl apply -f ../../deploy/depl-message-receiver-dotnet.yaml
 
 kubectl logs deployment/message-receiver-app message-receiver
 ```
