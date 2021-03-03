@@ -7,7 +7,7 @@ spec:
   version: v1
   metadata:
   - name: connectionString
-    value: "Endpoint=sb://dzdapr18021.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=lSgIrnj0iw263YK3FltmoLcvTa8BUOzDy94fczZ5hOU=" # Required.
+    value: "HERE_CONNECTIONSTRING_KEY" # Required.
   # - name: timeoutInSec
   #   value: <REPLACE-WITH-TIMEOUT-IN-SEC> # Optional. Default: "60". Timeout for sending messages and management operations.
   # - name: handlerTimeoutInSec

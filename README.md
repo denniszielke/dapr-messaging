@@ -1,39 +1,46 @@
 # dapr-actor-messages
 
+Sample application to demonstrate pubsub, remote invocation and distributed tracing on Azure
+
+![](/img/ai.png)
+
+### Prep
+
+1.) Create Application Insights and add instrumentation key in components/collector-config.yaml
+
+2.) Create ServiceBus Namespaces and add SB Connection string in components/azuresb.yaml
+
+```
+KUBE_GROUP=appconfig
+SB_NAMESPACE=dzdapr$RANDOM
+LOCATION=westeurope
+
+az servicebus namespace create --resource-group $KUBE_GROUP --name $SB_NAMESPACE --location $LOCATION
+az servicebus namespace authorization-rule keys list --name RootManageSharedAccessKey --namespace-name $SB_NAMESPACE --resource-group $KUBE_GROUP --query "primaryConnectionString" | tr -d '"'
+SB_CONNECTIONSTRING=$(az servicebus namespace authorization-rule keys list --name RootManageSharedAccessKey --namespace-name $SB_NAMESPACE --resource-group $KUBE_GROUP --query "primaryConnectionString" | tr -d '"')
 ```
 
+3.) Install dapr in cluster
 
 ```
+dapr init -k
+```
 
-## Dapr Quickstarts
+4.) Deploy component configuration
+```
+kubectl apply -f components
+```
+
+5.) Deploy apps
 
 ```
-helm repo add bitnami https://charts.bitnami.com/bitnami
-helm repo update
-
-helm upgrade redis bitnami/redis --install --set cluster.enabled=false --set password=secretpassword --namespace default
-helm delete redis
-
-cat <<EOF | kubectl apply -f -
-apiVersion: dapr.io/v1alpha1
-kind: Component
-metadata:
-  name: statestore
-spec:
-  type: state.redis
-  version: v1
-  metadata:
-  - name: redisHost
-    value: redis-master:6379
-  - name: redisPassword
-    value: secretpassword
-EOF
-
-kubectl apply -f https://raw.githubusercontent.com/dapr/quickstarts/master/distributed-calculator/deploy/dotnet-subtractor.yaml
-kubectl apply -f https://raw.githubusercontent.com/dapr/quickstarts/master/distributed-calculator/deploy/go-adder.yaml
-kubectl apply -f https://raw.githubusercontent.com/dapr/quickstarts/master/distributed-calculator/deploy/node-divider.yaml
-kubectl apply -f https://raw.githubusercontent.com/dapr/quickstarts/master/distributed-calculator/deploy/python-multiplier.yaml
-kubectl apply -f https://raw.githubusercontent.com/dapr/quickstarts/master/distributed-calculator/deploy/react-calculator.yaml
-
-kubectl apply -f https://raw.githubusercontent.com/dapr/quickstarts/master/distributed-calculator/deploy/redis.yaml
+kubectl apply -f deploy
 ```
+
+6.) Connect to app via port forwarding
+
+```
+kubectl port-forward deployment/message-creator-app 3000
+```
+
+7.) Open localhost:3000 and create traffic

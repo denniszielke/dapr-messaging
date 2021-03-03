@@ -7,7 +7,7 @@ kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.1
 
 ## Install Operator
 
-export APP_INSIGHTS_KEY=8f4f6945-e6b4-41d6-9ac0-5fa7a80e3782
+export APP_INSIGHTS_KEY=
 
 
 https://github.com/open-telemetry/opentelemetry-operator
@@ -40,7 +40,7 @@ spec:
       azuremonitor:
       azuremonitor/2:
         endpoint: "https://dc.services.visualstudio.com/v2/track"
-        instrumentation_key: "f0b7cf53-3fda-42b2-9273-af2ec008f099"
+        instrumentation_key: "HERE_INSTRUMENTATION_KEY"
         maxbatchsize: 100
         maxbatchinterval: 10s
     service:
