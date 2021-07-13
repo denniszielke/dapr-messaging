@@ -47,6 +47,22 @@ angular.module('SimulatorApp', [])
                     });       
             };
 
+            $scope.Stats = function () {
+                var postUrl = apiUrl + 'getversion';
+                var config = {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                };
+                $http.get(postUrl, { 'getname': status }, config)
+                    .success(function (response) { 
+                        $scope.version = response;
+                        console.log("received version:");
+                        console.log(response);
+                    });       
+            };
+
             $scope.InvokeRequest = function () {
                 var postUrl = apiUrl + 'invokerequest';
                 var uid = uuidv4();
@@ -141,5 +157,6 @@ angular.module('SimulatorApp', [])
             };
             
             $scope.Init();
+            $scope.Stats();
         }
     );
