@@ -62,7 +62,12 @@ app.post('/api/newdevice', function(req, res) {
     console.log("received new device request:");
     console.log(req.body);
     const publishUrl = `${daprUrl}/publish/${pubsubName}/newdevice`;
-    //request( { uri: publishUrl, method: 'POST', json: req.body } );
+    request( { uri: publishUrl, method: 'POST', json: req.body }, function (error, response, body) {
+        if (error) {
+          return console.error('new device registration failed:', error);
+        }
+        console.log('device registration successfull', body);
+      });
     res.sendStatus(200);
 });
 
@@ -70,7 +75,12 @@ app.post('/api/invokerequest', function(req, res) {
     console.log("received new device request:");
     console.log(req.body);
     const publishUrl = `${daprUrl}/invoke/${invokeTarget}/method/receiverequest`;
-    request( { uri: publishUrl, method: 'POST', json: req.body } );
+    request( { uri: publishUrl, method: 'POST', json: req.body }, function (error, response, body) {
+        if (error) {
+            return console.error('invoke request failed:', error);
+          }
+          console.log('invoke request successfull', body);
+      });
     res.sendStatus(200);
 });
 
@@ -78,7 +88,12 @@ app.post('/api/publishmessage', function(req, res) {
     console.log("received new device request:");
     console.log(req.body);
     const publishUrl = `${daprUrl}/publish/${pubsubName}/senddata`;
-    request( { uri: publishUrl, method: 'POST', json: req.body } );
+    request( { uri: publishUrl, method: 'POST', json: req.body } , function (error, response, body) {
+        if (error) {
+            return console.error('public message failed:', error);
+          }
+          console.log('public message successfull', body);
+      });
     res.sendStatus(200);
 });
 
