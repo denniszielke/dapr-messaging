@@ -71,17 +71,19 @@ namespace message_filter.Controllers
                 }      
                 if (message.Message != null){
                     _logger.LogInformation("Message says:" + message.Message.ToString());
+
+                    try{
+                        await daprClient.PublishEventAsync<DeviceMessage>("dzpubsub", "important", message);
+                        _logger.LogInformation("Message has been published to important topic:" + message.Message.ToString());
+                    }
+                    catch(Exception ex){
+                        _logger.LogError(ex, ex.Message);
+                        return BadRequest();
+                    }
                 }              
             }
 
-            try{
-                await daprClient.PublishEventAsync<DeviceMessage>("dzpubsub", "important", message);
-                _logger.LogInformation("Message has been published to important topic:" + message.Message.ToString());
-            }
-            catch(Exception ex){
-                _logger.LogError(ex, ex.Message);
-                return BadRequest();
-            }
+
             return Ok(message.Id);
         }
 
@@ -103,16 +105,16 @@ namespace message_filter.Controllers
                 }      
                 if (message.Message != null){
                     _logger.LogInformation("Message says:" + message.Message.ToString());
+                    try{
+                        await daprClient.InvokeMethodAsync<DeviceMessage>("message-receiver", "receiverequest", message);
+                    }
+                    catch(Exception ex){
+                        _logger.LogError(ex, ex.Message);
+                        return BadRequest();
+                    }
                 }                 
             }
-
-            try{
-                await daprClient.InvokeMethodAsync<DeviceMessage>("message-receiver", "receiverequest", message);
-            }
-            catch(Exception ex){
-                _logger.LogError(ex, ex.Message);
-                return BadRequest();
-            }
+            
             return Ok(message.Id);
         }
     }

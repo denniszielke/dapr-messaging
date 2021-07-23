@@ -6,15 +6,25 @@ Sample application to demonstrate pubsub, remote invocation and distributed trac
 
 ### Prep
 
+0.)
+```
+KUBE_GROUP=dzdapr
+KUBE_NAME=dzdapr
+SB_NAMESPACE=dzdapr$RANDOM
+LOCATION=westeurope
+```
+
 1.) Create Application Insights and add instrumentation key in components/collector-config.yaml
+
+```
+WORKSPACE_RESOURCE_ID=$(az monitor log-analytics workspace list --resource-group $KUBE_GROUP --query "[?contains(name, '$KUBE_NAME')].id" -o tsv)
+az monitor app-insights component create --app $KUBE_NAME-ai --location $LOCATION --resource-group $KUBE_GROUP --application-type web --kind web --workspace $WORKSPACE_RESOURCE_ID
+
+```
 
 2.) Create ServiceBus Namespaces and add SB Connection string in components/azuresb.yaml
 
 ```
-KUBE_GROUP=appconfig
-SB_NAMESPACE=dzdapr$RANDOM
-LOCATION=westeurope
-
 az servicebus namespace create --resource-group $KUBE_GROUP --name $SB_NAMESPACE --location $LOCATION
 az servicebus namespace authorization-rule keys list --name RootManageSharedAccessKey --namespace-name $SB_NAMESPACE --resource-group $KUBE_GROUP --query "primaryConnectionString" | tr -d '"'
 SB_CONNECTIONSTRING=$(az servicebus namespace authorization-rule keys list --name RootManageSharedAccessKey --namespace-name $SB_NAMESPACE --resource-group $KUBE_GROUP --query "primaryConnectionString" | tr -d '"')
